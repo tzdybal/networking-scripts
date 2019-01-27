@@ -2,8 +2,13 @@
 
 COUNTRIES="ch no"
 
-echo "===> Resetting firewall"
-sudo ufw reset
+echo "===> Removing all nordvpn.com related firewall rules"
+RULES=`sudo ufw status numbered | grep nordvpn.com | sed -e 's/\[\(.*\)\].*/\1/'`
+for RULE in $RULES; do
+	sudo ufw --force delete $RULE > /dev/null 2>&1
+done
+
+echo "===> Turning on firewall and disabling all traffic"
 sudo ufw enable
 sudo ufw default deny incoming
 sudo ufw default deny outgoing
