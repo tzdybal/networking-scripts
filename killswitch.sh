@@ -50,3 +50,9 @@ done
 
 echo "===> Enabling traffic on tun0"
 sudo ufw allow out on tun0
+
+if [ "$1" = "local" ]; then
+	echo "===> Enabling traffic on local network"
+	# TODO: get localhost address/mask
+	sudo ufw allow out on wlp2s0 to 192.168.1.0/24 comment "Home network"
+fi

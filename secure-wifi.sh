@@ -6,6 +6,10 @@ if [ "$1" = "refresh" ]; then
 	REFRESH=1
 fi
 
+if [ "$2" = "local" ]; then
+	LOCAL="local"
+fi
+
 if [ $REFRESH -eq 0 ]; then
 	echo "===> Stopping VPN and applying killswitch"
 	sudo nordvpn stop
