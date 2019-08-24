@@ -28,8 +28,10 @@ sudo ufw default deny outgoing
 echo "===> Setting up DNS"
 echo nameserver 1.1.1.1 | cat - /etc/resolv.conf > /tmp/resolv.conf
 sudo mv /tmp/resolv.conf /etc/resolv.conf
-sudo ufw allow out on wlp2s0 to 1.1.1.1 comment 'Cloud Flare DNS'
-sudo ufw allow out on tun0 to 1.1.1.1 comment 'Cloud Flare DNS'
+for NS in `cat /etc/resolv.conf | awk '/nameserver/{print $2}'`; do
+	sudo ufw allow out on wlp2s0 to $NS comment 'DNS from /etc/resolv.conf (rule for nordvpn.com killswitch)'
+	sudo ufw allow out on tun0 to $NS comment 'DNS from /etc/resolv.conf (rule for nordvpn.com killswitch)'
+done
 
 echo "===> Enabling NordVPN servers from: $COUNTRIES"
 PIDS=()
