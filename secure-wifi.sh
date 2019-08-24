@@ -6,7 +6,7 @@ if [ "$1" = "refresh" ]; then
 	REFRESH=1
 fi
 
-if [ "$2" = "local" ]; then
+if [ "$1" = "local" -o "$2" = "local" ]; then
 	LOCAL="local"
 fi
 
