@@ -29,3 +29,15 @@ sudo mv /tmp/resolv.conf /etc/resolv.conf
 echo "===> Ping and DNS test..."
 ping -c 4 1.1.1.1
 ping -c 4 google.com
+
+echo "===> Captive Portal test (beta)..."
+HTTP_CODE=`curl -Is https://duckduckgo.com/ | awk 'NR==1 {print $2}'`
+case "$HTTP_CODE" in
+	"200")
+		echo "Captive Portal not detected!"
+		;;
+	"302"|"303"|"304"|"305"|"306"|"307")
+		LOCATION=`curl -Is https://duckduckgo.com/ | awk '/location/{print $2}'`
+		echo "Captive Portal: $LOCATION"
+		;;
+esac
