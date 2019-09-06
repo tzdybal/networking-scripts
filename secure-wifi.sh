@@ -17,7 +17,7 @@ if [ $REFRESH -eq 0 ]; then
 fi
 
 echo "===> Looking for best VPN server..."
-BEST=`sudo nordvpn rank ch* | head -n 1 | cut -f1`
+BEST=`sudo nordvpn rank ch* | grep \\. | head -n 1 | cut -f1`
 
 echo "===> Connecting to $BEST"
 sudo nordvpn start $BEST
